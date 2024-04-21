@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-//MARK: UIPickerViewDataSource methods implementacion
+//MARK: UIPickerViewDataSource methods implementation
 extension ViewController : UIPickerViewDataSource{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return appConstants.fontFamilyControlComponents
@@ -30,6 +30,8 @@ extension ViewController : UIPickerViewDelegate{
         print("selected row", row)
         currentFontFamily = fontDataFamily[row]
         textView.font = UIFont(name: currentFontFamily!, size: currentFontSize)
+        saveConfig(key: "savedFontFamily", value: currentFontFamily!)
+        saveConfig(key: "savedFontFamilyIndex", value: row)
     }
 }
 
@@ -45,4 +47,15 @@ extension ViewController : UITextViewDelegate {
     
 }
 
-
+extension ViewController {
+    
+    func saveConfig(key : String,  value :  Any) {
+        UserDefaults.standard.set(value, forKey: key)
+        print("UD key:", UserDefaults.standard.value(forKey: key)!)
+    }
+    
+    func getConfig(key : String) -> Any {
+        return UserDefaults.standard.object(forKey: key) as Any
+    }
+    
+}
